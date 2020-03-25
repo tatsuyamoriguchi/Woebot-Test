@@ -36,9 +36,11 @@ class ViewController: UIViewController {
             
             
             if (idData["replies"] != nil) {
-                guard let repliesDict = (idData["replies"] as? [String : Any]) else { return }
-                for (key, value) in repliesDict {
-                    createButtons(buttonTitle: value as! String)
+                guard let repliesArray = (idData["replies"] as? [String]) else { return }
+                var x: Int = 80
+                for rep in repliesArray {
+                    createButtons(buttonTitle: rep, x: x )
+                    x = x + 100
                 }
                 
                 
@@ -94,12 +96,19 @@ class ViewController: UIViewController {
  */
     
 
-    func createButtons(buttonTitle: String) {
+    func createButtons(buttonTitle: String, x: Int) {
         let button = UIButton()
-        button.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
+        button.frame = CGRect(x: x, y: 600, width: 50, height: 50)
         button.setTitle(buttonTitle, for: .normal)
-        
-        
+        button.backgroundColor = .darkGray
+
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        self.view.addSubview(button)
+
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+      print("Button tapped")
     }
 
     
