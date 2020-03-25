@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
+
         
         if let idData = jsonData?["EIC"] as? [String : Any] {
                         
@@ -24,8 +25,24 @@ class ViewController: UIViewController {
                 print(key, value)
             }
 
-            chatTextLabel.text = idData["text"] as? String
-            chatTextView.text = idData["text"] as? String
+            let textData = idData["text"] as? String
+            chatTextLabel.text = textData
+            chatTextView.text = textData
+            
+            
+            
+            
+//            guard let repliesDict = idData["replies"] as? String else { return }
+            
+            
+            if (idData["replies"] != nil) {
+                guard let repliesDict = (idData["replies"] as? [String : Any]) else { return }
+                for (key, value) in repliesDict {
+                    createButtons(buttonTitle: value as! String)
+                }
+                
+                
+            }
             
 
         } else {
@@ -77,6 +94,13 @@ class ViewController: UIViewController {
  */
     
 
+    func createButtons(buttonTitle: String) {
+        let button = UIButton()
+        button.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
+        button.setTitle(buttonTitle, for: .normal)
+        
+        
+    }
 
     
     
