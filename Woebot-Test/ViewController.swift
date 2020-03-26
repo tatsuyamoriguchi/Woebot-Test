@@ -46,8 +46,10 @@ class ViewController: UIViewController {
             
             if (idData["payloads"] != nil) {
                 guard let payloadsArray = (idData["payloads"] as? [String]) else { return }
-                print("")
-                print(payloadsArray)
+                for payload in payloadsArray {
+                    print(payload)
+                }
+                
             }
             
 
@@ -116,11 +118,15 @@ class ViewController: UIViewController {
     
     @objc func buttonAction(sender: UIButton!) {
       
+       print("")
         print("Button tapped")
-        let payloadIndex = sender.tag
-        print(payloadIndex)
-        print(payloadsArray?[payloadIndex] as Any)
-        
+        print(sender.tag)
+        returnReply(index: sender.tag)
+    }
+    
+    func returnReply(index: Int) {
+        print("")
+        print(index)
     }
 
     
