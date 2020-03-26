@@ -63,6 +63,7 @@
                     <connections>
                         <outlet property="chatTextLabel" destination="ryW-L2-6d4" id="A9s-3m-8Zh"/>
                         <outlet property="chatTextView" destination="D0P-jX-74N" id="DbX-vW-8El"/>
+                        <outlet property="startAgainButton" destination="CEI-Zh-Tq0" id="lDY-bi-Uuq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

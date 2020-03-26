@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 
 /* payloads -> JSON ID Tree
@@ -36,6 +37,7 @@ class ViewController: UIViewController {
     // Properties
     @IBOutlet weak var chatTextView: UITextView!
     @IBOutlet weak var chatTextLabel: UILabel!
+    @IBOutlet weak var startAgainButton: UIButton!
     
   
     let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
@@ -47,6 +49,14 @@ class ViewController: UIViewController {
     // View
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        chatTextLabel.layer.cornerRadius = 10
+        chatTextLabel.layer.masksToBounds = true
+        chatTextView.layer.cornerRadius = 10
+        chatTextView.layer.masksToBounds = true
+        startAgainButton.layer.cornerRadius = 10
+        startAgainButton.layer.masksToBounds = true
+        
         parseJson(chatData: "", jsonID: "EIC")
         
     }
@@ -222,6 +232,13 @@ class ViewController: UIViewController {
         
         // grab payloadsArray element value to send to the backend server
         let index = sender.tag
+        
+        
+        let payload = payloadsArray?[index]
+        // Just print it for now
+        print("\npayload from buttonAction")
+        print(payload as Any)
+        
         
         // Debug purpose
         print("\nindex: \(index)")
