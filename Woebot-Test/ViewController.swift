@@ -179,17 +179,25 @@ class ViewController: UIViewController {
     
     func createButtons(buttonTitle: String, x: Int, index: Int) {
         let button = UIButton()
-        
 
-        let maxWidth = 200
-        button.frame = CGRect(x: x, y: 700, width: maxWidth, height: 50)
+        self.view.addSubview(button)
+
+        // dynamically position buttons
+        let constantX = CGFloat(x)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: constantX).isActive = true
+        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30.0).isActive = true
+        
+// Old code to statically position buttons
+//        let maxWidth = 200
+//        button.frame = CGRect(x: x, y: 200, width: maxWidth, height: 50)
+        
         button.setTitle(buttonTitle, for: .normal)
         button.backgroundColor = .darkGray
         
         button.sizeToFit()
         
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        self.view.addSubview(button)
         
         button.tag = index
 
