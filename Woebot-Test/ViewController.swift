@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     
   
     let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
-    
+    var repliesArray: [String]?
     var payloadsArray: [String]?
     var routesArray: [String]?
     var buttonArray = [UIButton]()
@@ -93,35 +93,63 @@ class ViewController: UIViewController {
             chatTextLabel.text = textData
             chatTextView.text = chatData + "\n" + textData
             
-            
+  
             if (idData["replies"] != nil) {
-                guard let repliesArray = (idData["replies"] as? [String]) else { return }
-                var x: Int = 40
-                var index: Int = 0
-                for rep in repliesArray {
-                    createButtons(buttonTitle: rep, x: x, index: index )
-                    x = x + 80
-                    index = index + 1
+                if let array = (idData["replies"] as? [String]) {
                     
+                    
+                repliesArray = array
+                    var x: Int = 40
+                    var index: Int = 0
+                    for rep in array {
+                        createButtons(buttonTitle: rep, x: x, index: index )
+                        x = x + 40
+                        index = index + 1
+
+                    }
+                    
+                } else {
+                    print("replies is not an array.")
+                    var array: [String]?
+                    
+                    array?.append(idData["replies"] as! String)
+                    print("ERROR: ")
+                    print(idData["replies"] as Any)
+
+                    let buttonTitle = idData["replies"]
+
+                    createButtons(buttonTitle: buttonTitle as! String, x: 40, index: 0)
+
                 }
             }
             
             if (idData["payloads"] != nil) {
                 
-                payloadsArray = (idData["payloads"] as? [String])
-                for payload in payloadsArray!  {
-                    print(payload)
+                if let array = (idData["payloads"] as? [String]) {
+                    
+                    payloadsArray = array
+                    for payload in array  {
+                        print(payload)
+                    }
+                    
+                } else {
+                    let payload = idData["payloads"] as? String
+                    print(payload as Any)
+                    
                 }
-                
             }
             
             if (idData["routes"] != nil) {
                 
-                routesArray = (idData["routes"] as? [String])
-                for route in routesArray!  {
-                    print(route)
+                if let array = (idData["routes"] as? [String]) {
+                   routesArray = array
+                    for route in array  {
+                        print(route)
+                    }
+                } else {
+                    let route = idData["routes"] as? String
+                    print(route as Any)
                 }
-                
             }
             
             
@@ -136,10 +164,15 @@ class ViewController: UIViewController {
     
     func createButtons(buttonTitle: String, x: Int, index: Int) {
         let button = UIButton()
-        button.frame = CGRect(x: x, y: 700, width: 50, height: 50)
+        
+
+        let maxWidth = 200
+        button.frame = CGRect(x: x, y: 700, width: maxWidth, height: 50)
         button.setTitle(buttonTitle, for: .normal)
         button.backgroundColor = .darkGray
-
+        
+        button.sizeToFit()
+        
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         self.view.addSubview(button)
         
@@ -151,6 +184,9 @@ class ViewController: UIViewController {
     
     
     @objc func buttonAction(sender: UIButton!) {
+        
+        removeButtons()
+        
         print("")
         print("Button tapped")
         
@@ -167,15 +203,16 @@ class ViewController: UIViewController {
         // Just print it for now
         print(payload as Any)
         
-//        // Remove buttons
-//        for btn in buttonArray {
-//            btn.removeFromSuperview()
-//        }
-        removeButtons()
+
+     
 
         
         // pass Json nextID to display next question
         guard let nextID = routesArray?[index] else { return  }
+        
+        print("nextID: \(nextID)")
+
+       
         parseJson(chatData: chatData, jsonID: nextID)
         
     }
