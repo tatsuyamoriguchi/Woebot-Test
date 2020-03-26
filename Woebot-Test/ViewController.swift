@@ -28,8 +28,6 @@ import UIKit
     DGP -> ["YRB", "TUD"]
     YRB -> "QYY"
     TUD -> "DGP"
-    
-
 */
 
 
@@ -102,7 +100,6 @@ class ViewController: UIViewController {
             if (idData["replies"] != nil) {
                 if let array = (idData["replies"] as? [String]) {
                     
-                    
                 repliesArray = array
                     var x: Int = 40
                     var index: Int = 0
@@ -114,19 +111,12 @@ class ViewController: UIViewController {
                     }
                     
                 } else {
-                    
+
                     // Debug purpose
                     print("\nreplies is not an array.")
-                    
-//                    var array: [String]?
-//                    array?.append(idData["replies"] as! String)
-//                    print("ERROR: ")
-//                    print("idData[\"replies\"]")
-//                    print(idData["replies"] as Any)
 
                     let buttonTitle = idData["replies"]
                     createButtons(buttonTitle: buttonTitle as! String, x: 40, index: 0)
-
                 }
             }
             
