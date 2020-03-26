@@ -14,50 +14,53 @@ class ViewController: UIViewController {
     @IBOutlet weak var chatTextLabel: UILabel!
     
   
+    let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
     
     var payloadsArray: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
+        parseJson()
+        
+//        let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
 
         
-        if let idData = jsonData?["EIC"] as? [String : Any] {
-                        
-            for (key, value) in idData {
-                print(key, value)
-            }
-
-            let textData = idData["text"] as? String
-            chatTextLabel.text = textData
-            chatTextView.text = textData
-            
-            
-            if (idData["replies"] != nil) {
-                guard let repliesArray = (idData["replies"] as? [String]) else { return }
-                var x: Int = 80
-                var index: Int = 0
-                for rep in repliesArray {
-                    createButtons(buttonTitle: rep, x: x, index: index )
-                    x = x + 80
-                    index = index + 1
-                }
-            }
-            
-            if (idData["payloads"] != nil) {
-                    
-                payloadsArray = (idData["payloads"] as? [String])
-                for payload in payloadsArray!  {
-                    print(payload)
-                }
-                
-            }
-            
-
-        } else {
-            print("No data")
-        }
+//        if let idData = jsonData?["EIC"] as? [String : Any] {
+//
+//            for (key, value) in idData {
+//                print(key, value)
+//            }
+//
+//            let textData = idData["text"] as? String
+//            chatTextLabel.text = textData
+//            chatTextView.text = textData
+//
+//
+//            if (idData["replies"] != nil) {
+//                guard let repliesArray = (idData["replies"] as? [String]) else { return }
+//                var x: Int = 80
+//                var index: Int = 0
+//                for rep in repliesArray {
+//                    createButtons(buttonTitle: rep, x: x, index: index )
+//                    x = x + 80
+//                    index = index + 1
+//                }
+//            }
+//
+//            if (idData["payloads"] != nil) {
+//
+//                payloadsArray = (idData["payloads"] as? [String])
+//                for payload in payloadsArray!  {
+//                    print(payload)
+//                }
+//
+//            }
+//
+//
+//        } else {
+//            print("No data")
+//        }
         
     }
     
@@ -103,8 +106,45 @@ class ViewController: UIViewController {
 
  */
     
-
-    
+    func parseJson() {
+        
+        if let idData = jsonData?["EIC"] as? [String : Any] {
+            
+            for (key, value) in idData {
+                print(key, value)
+            }
+            
+            let textData = idData["text"] as? String
+            chatTextLabel.text = textData
+            chatTextView.text = textData
+            
+            
+            if (idData["replies"] != nil) {
+                guard let repliesArray = (idData["replies"] as? [String]) else { return }
+                var x: Int = 80
+                var index: Int = 0
+                for rep in repliesArray {
+                    createButtons(buttonTitle: rep, x: x, index: index )
+                    x = x + 80
+                    index = index + 1
+                }
+            }
+            
+            if (idData["payloads"] != nil) {
+                
+                payloadsArray = (idData["payloads"] as? [String])
+                for payload in payloadsArray!  {
+                    print(payload)
+                }
+                
+            }
+            
+            
+        } else {
+            print("No data")
+        }
+        
+    }
     
 //    var button = UIButton()
     
