@@ -106,6 +106,8 @@ class ViewController: UIViewController {
 
     
     
+//    var button = UIButton()
+    
     func createButtons(buttonTitle: String, x: Int, index: Int) {
         let button = UIButton()
         button.frame = CGRect(x: x, y: 700, width: 50, height: 50)
@@ -118,6 +120,7 @@ class ViewController: UIViewController {
         button.tag = index
     }
     
+    
     @objc func buttonAction(sender: UIButton!) {
         print("")
         print("Button tapped")
@@ -127,12 +130,15 @@ class ViewController: UIViewController {
         chatTextView.text = chatTextView.text + "\n" + (reply ?? "ERROR")
         
         
-        // grab payloadsArray element value to send to the server
+        // grab payloadsArray element value to send to the backend server
         let index = sender.tag
         print("index: \(index)")
         let payload = payloadsArray?[index]
         // Just print it for now
         print(payload as Any)
+        
+        sender.removeFromSuperview()
+        
 
     }
     
