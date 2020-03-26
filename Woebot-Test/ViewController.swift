@@ -43,13 +43,14 @@ class ViewController: UIViewController {
     let jsonData = ViewController.readJSONFromFile(fileName: "allornothing")
     
     var payloadsArray: [String]?
+    var routesArray: [String]?
     
     
     // View
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parseJson()
+        parseJson(chatData: "", jsonID: "EIC")
         
     }
     
@@ -73,22 +74,24 @@ class ViewController: UIViewController {
     }
     
     
-    func parseJson() {
+    
+    func parseJson(chatData: String, jsonID: String) {
         
-        if let idData = jsonData?["EIC"] as? [String : Any] {
+        if let idData = jsonData?[jsonID] as? [String : Any] {
             
             for (key, value) in idData {
                 print(key, value)
             }
             
-            let textData = idData["text"] as? String
+            guard let textData = idData["text"] as? String else { return }
+
             chatTextLabel.text = textData
-            chatTextView.text = textData
+            chatTextView.text = chatData + "\n" + textData
             
             
             if (idData["replies"] != nil) {
                 guard let repliesArray = (idData["replies"] as? [String]) else { return }
-                var x: Int = 80
+                var x: Int = 40
                 var index: Int = 0
                 for rep in repliesArray {
                     createButtons(buttonTitle: rep, x: x, index: index )
@@ -106,6 +109,16 @@ class ViewController: UIViewController {
                 
             }
             
+            if (idData["routes"] != nil) {
+                
+                routesArray = (idData["routes"] as? [String])
+                for route in routesArray!  {
+                    print(route)
+                }
+                
+            }
+            
+            
             
         } else {
             print("No data")
@@ -113,7 +126,7 @@ class ViewController: UIViewController {
         
     }
     
-//    var button = UIButton()
+
     
     func createButtons(buttonTitle: String, x: Int, index: Int) {
         let button = UIButton()
@@ -134,7 +147,8 @@ class ViewController: UIViewController {
         
         print(sender.titleLabel?.text as Any)
         let reply = sender.titleLabel?.text
-        chatTextView.text = chatTextView.text + "\n" + (reply ?? "ERROR")
+        let chatData = chatTextView.text + "\n" + (reply ?? "ERROR")
+        chatTextView.text = chatData
         
         
         // grab payloadsArray element value to send to the backend server
@@ -144,10 +158,15 @@ class ViewController: UIViewController {
         // Just print it for now
         print(payload as Any)
         
+        guard let nextID = routesArray?[index] else { return  }
+        parseJson(chatData: chatData, jsonID: nextID)
         sender.removeFromSuperview()
         
 
     }
+    
+  
+    
     
 
     
