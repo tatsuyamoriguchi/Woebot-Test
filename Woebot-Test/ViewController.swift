@@ -49,11 +49,16 @@ class ViewController: UIViewController {
     // View
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         parseJson(chatData: "", jsonID: "EIC")
         
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        let bottom = NSMakeRange(chatTextView.text.count - 1, 1)
+        chatTextView.scrollRangeToVisible(bottom)
+
+    }
     
     // Methods
     static func readJSONFromFile(fileName: String) -> [String: Any]?
