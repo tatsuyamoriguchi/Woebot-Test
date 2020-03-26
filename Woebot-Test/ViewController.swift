@@ -162,10 +162,11 @@ class ViewController: UIViewController {
         // Just print it for now
         print(payload as Any)
         
-        // Remove buttons
-        for btn in buttonArray {
-            btn.removeFromSuperview()
-        }
+//        // Remove buttons
+//        for btn in buttonArray {
+//            btn.removeFromSuperview()
+//        }
+        removeButtons()
 
         
         // pass Json nextID to display next question
@@ -174,7 +175,18 @@ class ViewController: UIViewController {
         
     }
     
+    func removeButtons() {
+        // Remove buttons
+         for btn in buttonArray {
+             btn.removeFromSuperview()
+         }
+    }
   
+    
+    @IBAction func clearData(_ sender: UIButton) {
+        removeButtons()
+        parseJson(chatData: "", jsonID: "EIC")
+    }
     
     
 
