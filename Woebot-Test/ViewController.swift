@@ -13,8 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var chatTextView: UITextView!
     @IBOutlet weak var chatTextLabel: UILabel!
     
-    var payloadsArray: [String]?
+  
     
+    var payloadsArray: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +46,9 @@ class ViewController: UIViewController {
             }
             
             if (idData["payloads"] != nil) {
-                guard let payloadsArray = (idData["payloads"] as? [String]) else { return }
-                for payload in payloadsArray {
+                    
+                payloadsArray = (idData["payloads"] as? [String])
+                for payload in payloadsArray!  {
                     print(payload)
                 }
                 
@@ -117,20 +119,20 @@ class ViewController: UIViewController {
     }
     
     @objc func buttonAction(sender: UIButton!) {
-      
-       print("")
-        print("Button tapped")
-        print(sender.tag)
-        returnReply(index: sender.tag)
-    }
-    
-    func returnReply(index: Int) {
         print("")
-        print(index)
-    }
+        print("Button tapped")
+        
+        print(sender.titleLabel?.text)
+        
+        let index = sender.tag
+        print("index: \(index)")
+        
+        let payload = payloadsArray?[index]
+        print(payload as Any)
 
+    }
     
-    
+
     
 }
 
