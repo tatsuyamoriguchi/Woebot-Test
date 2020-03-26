@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var chatTextView: UITextView!
     @IBOutlet weak var chatTextLabel: UILabel!
     
+    var payloadsArray: [String]?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,20 +33,20 @@ class ViewController: UIViewController {
             chatTextView.text = textData
             
             
-            
-            
-//            guard let repliesDict = idData["replies"] as? String else { return }
-            
-            
             if (idData["replies"] != nil) {
                 guard let repliesArray = (idData["replies"] as? [String]) else { return }
                 var x: Int = 80
                 for rep in repliesArray {
                     createButtons(buttonTitle: rep, x: x )
-                    x = x + 100
+                    x = x + 80
                 }
-                
-                
+            }
+            
+            if (idData["payloads"] != nil) {
+                guard let payloadsArray = (idData["payloads"] as? [String]) else { return }
+                print("")
+                print(payloadsArray)
+                print(payloadsArray[0])
             }
             
 
@@ -96,19 +99,23 @@ class ViewController: UIViewController {
  */
     
 
+    
+    
     func createButtons(buttonTitle: String, x: Int) {
         let button = UIButton()
-        button.frame = CGRect(x: x, y: 600, width: 50, height: 50)
+        button.frame = CGRect(x: x, y: 700, width: 50, height: 50)
         button.setTitle(buttonTitle, for: .normal)
         button.backgroundColor = .darkGray
 
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         self.view.addSubview(button)
-
+        button.tag = 1
     }
     
     @objc func buttonAction(sender: UIButton!) {
-      print("Button tapped")
+      
+        print("Button tapped")
+        print(sender.tag)
     }
 
     
