@@ -122,12 +122,16 @@ class ViewController: UIViewController {
         print("")
         print("Button tapped")
         
-        print(sender.titleLabel?.text)
+        print(sender.titleLabel?.text as Any)
+        let reply = sender.titleLabel?.text
+        chatTextView.text = chatTextView.text + "\n" + (reply ?? "ERROR")
         
+        
+        // grab payloadsArray element value to send to the server
         let index = sender.tag
         print("index: \(index)")
-        
         let payload = payloadsArray?[index]
+        // Just print it for now
         print(payload as Any)
 
     }
