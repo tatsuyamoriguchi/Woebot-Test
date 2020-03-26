@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     
     var payloadsArray: [String]?
     var routesArray: [String]?
-    
+    var buttonArray = [UIButton]()
     
     // View
     override func viewDidLoad() {
@@ -97,6 +97,7 @@ class ViewController: UIViewController {
                     createButtons(buttonTitle: rep, x: x, index: index )
                     x = x + 80
                     index = index + 1
+                    
                 }
             }
             
@@ -138,6 +139,9 @@ class ViewController: UIViewController {
         self.view.addSubview(button)
         
         button.tag = index
+
+        self.buttonArray.append(button)
+
     }
     
     
@@ -158,11 +162,16 @@ class ViewController: UIViewController {
         // Just print it for now
         print(payload as Any)
         
+        // Remove buttons
+        for btn in buttonArray {
+            btn.removeFromSuperview()
+        }
+
+        
+        // pass Json nextID to display next question
         guard let nextID = routesArray?[index] else { return  }
         parseJson(chatData: chatData, jsonID: nextID)
-        sender.removeFromSuperview()
         
-
     }
     
   
