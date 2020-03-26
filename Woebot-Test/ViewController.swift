@@ -36,9 +36,11 @@ class ViewController: UIViewController {
             if (idData["replies"] != nil) {
                 guard let repliesArray = (idData["replies"] as? [String]) else { return }
                 var x: Int = 80
+                var index: Int = 0
                 for rep in repliesArray {
-                    createButtons(buttonTitle: rep, x: x )
+                    createButtons(buttonTitle: rep, x: x, index: index )
                     x = x + 80
+                    index = index + 1
                 }
             }
             
@@ -46,7 +48,6 @@ class ViewController: UIViewController {
                 guard let payloadsArray = (idData["payloads"] as? [String]) else { return }
                 print("")
                 print(payloadsArray)
-                print(payloadsArray[0])
             }
             
 
@@ -101,7 +102,7 @@ class ViewController: UIViewController {
 
     
     
-    func createButtons(buttonTitle: String, x: Int) {
+    func createButtons(buttonTitle: String, x: Int, index: Int) {
         let button = UIButton()
         button.frame = CGRect(x: x, y: 700, width: 50, height: 50)
         button.setTitle(buttonTitle, for: .normal)
@@ -109,13 +110,17 @@ class ViewController: UIViewController {
 
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         self.view.addSubview(button)
-        button.tag = 1
+        
+        button.tag = index
     }
     
     @objc func buttonAction(sender: UIButton!) {
       
         print("Button tapped")
-        print(sender.tag)
+        let payloadIndex = sender.tag
+        print(payloadIndex)
+        print(payloadsArray?[payloadIndex] as Any)
+        
     }
 
     
