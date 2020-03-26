@@ -82,9 +82,14 @@ class ViewController: UIViewController {
     
     func parseJson(chatData: String, jsonID: String) {
         
+        repliesArray = []
+        payloadsArray = []
+        routesArray = []
+
         if let idData = jsonData?[jsonID] as? [String : Any] {
             
             for (key, value) in idData {
+                //print("\nkey, value")
                 print(key, value)
             }
             
@@ -109,11 +114,12 @@ class ViewController: UIViewController {
                     }
                     
                 } else {
-                    print("replies is not an array.")
+                    print("\nreplies is not an array.")
                     var array: [String]?
                     
                     array?.append(idData["replies"] as! String)
                     print("ERROR: ")
+                    print("idData[\"replies\"]")
                     print(idData["replies"] as Any)
 
                     let buttonTitle = idData["replies"]
@@ -128,14 +134,23 @@ class ViewController: UIViewController {
                 if let array = (idData["payloads"] as? [String]) {
                     
                     payloadsArray = array
+                    print("\npayload as Array")
                     for payload in array  {
+                        
                         print(payload)
                     }
                     
                 } else {
-                    let payload = idData["payloads"] as? String
-                    print(payload as Any)
+                    print("\npayloads is not Array.")
+                    print(idData["payloads"] as Any)
+                    payloadsArray?.append(idData["payloads"] as! String)
+                    print("\npayloadsArray: \(String(describing: payloadsArray))")
                     
+//                    var array:[String]?
+//                    array?.append(idData["payloads"] as! String)
+//                    payloadsArray.append(array)
+//                    print("\npayloadsArray: \(String(describing: payloadsArray))")
+                                    
                 }
             }
             
@@ -143,19 +158,32 @@ class ViewController: UIViewController {
                 
                 if let array = (idData["routes"] as? [String]) {
                    routesArray = array
+                    print("\nroute as Array")
                     for route in array  {
+                        
                         print(route)
                     }
                 } else {
-                    let route = idData["routes"] as? String
-                    print(route as Any)
+                    print("\nroute is not Array.")
+
+                    routesArray?.append(idData["routes"] as! String)
+                    print("\nroutesArray: \(String(describing: routesArray))")
+                    
+                    
+                    
+                    //                    var array:[String]?
+//                    array?.append(idData["routes"] as! String)
+//                    routesArray = array
+//                    print("\nroutesArray: \(String(describing: routesArray))")
+//
+                    
                 }
             }
             
             
             
         } else {
-            print("No data")
+            print("\nNo data")
         }
         
     }
@@ -184,12 +212,12 @@ class ViewController: UIViewController {
     
     
     @objc func buttonAction(sender: UIButton!) {
+
         
         removeButtons()
         
-        print("")
-        print("Button tapped")
-        
+        print("\n********Button tapped***********")
+        print("\nsender.titleLabel?.text as Any")
         print(sender.titleLabel?.text as Any)
         let reply = sender.titleLabel?.text
         let chatData = chatTextView.text + "\n" + (reply ?? "ERROR")
@@ -198,10 +226,12 @@ class ViewController: UIViewController {
         
         // grab payloadsArray element value to send to the backend server
         let index = sender.tag
-        print("index: \(index)")
-        let payload = payloadsArray?[index]
-        // Just print it for now
-        print(payload as Any)
+        print("\nindex: \(index)")
+//
+//        let payload = payloadsArray?[index]
+//        // Just print it for now
+//        print("\npayload from buttonAction")
+//        print(payload as Any)
         
 
      
@@ -210,10 +240,11 @@ class ViewController: UIViewController {
         // pass Json nextID to display next question
         guard let nextID = routesArray?[index] else { return  }
         
-        print("nextID: \(nextID)")
-
-       
+        print("\nnextID: \(nextID)")
         parseJson(chatData: chatData, jsonID: nextID)
+        
+
+        
         
     }
     
