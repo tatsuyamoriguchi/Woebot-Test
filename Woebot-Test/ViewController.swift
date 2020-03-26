@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         if let idData = jsonData?[jsonID] as? [String : Any] {
             
             for (key, value) in idData {
-                //print("\nkey, value")
+                // Debug purpose
                 print(key, value)
             }
             
@@ -114,16 +114,17 @@ class ViewController: UIViewController {
                     }
                     
                 } else {
-                    print("\nreplies is not an array.")
-                    var array: [String]?
                     
-                    array?.append(idData["replies"] as! String)
-                    print("ERROR: ")
-                    print("idData[\"replies\"]")
-                    print(idData["replies"] as Any)
+                    // Debug purpose
+                    print("\nreplies is not an array.")
+                    
+//                    var array: [String]?
+//                    array?.append(idData["replies"] as! String)
+//                    print("ERROR: ")
+//                    print("idData[\"replies\"]")
+//                    print(idData["replies"] as Any)
 
                     let buttonTitle = idData["replies"]
-
                     createButtons(buttonTitle: buttonTitle as! String, x: 40, index: 0)
 
                 }
@@ -132,24 +133,26 @@ class ViewController: UIViewController {
             if (idData["payloads"] != nil) {
                 
                 if let array = (idData["payloads"] as? [String]) {
-                    
-                    payloadsArray = array
+
+                    // Debug purpose
                     print("\npayload as Array")
+
+                    payloadsArray = array
                     for payload in array  {
                         
                         print(payload)
                     }
                     
                 } else {
+                    
+                    // Debug purpose
                     print("\npayloads is not Array.")
                     print(idData["payloads"] as Any)
+
                     payloadsArray?.append(idData["payloads"] as! String)
-                    print("\npayloadsArray: \(String(describing: payloadsArray))")
                     
-//                    var array:[String]?
-//                    array?.append(idData["payloads"] as! String)
-//                    payloadsArray.append(array)
-//                    print("\npayloadsArray: \(String(describing: payloadsArray))")
+                    // Debug purpose
+                    print("\npayloadsArray: \(String(describing: payloadsArray))")
                                     
                 }
             }
@@ -158,34 +161,28 @@ class ViewController: UIViewController {
                 
                 if let array = (idData["routes"] as? [String]) {
                    routesArray = array
+                    
+                    // Debug purpose
                     print("\nroute as Array")
                     for route in array  {
-                        
+                        // Debug purpose
                         print(route)
                     }
+                    
                 } else {
+                    // Debug purpose
                     print("\nroute is not Array.")
 
                     routesArray?.append(idData["routes"] as! String)
+                    
+                    // Debug purpose
                     print("\nroutesArray: \(String(describing: routesArray))")
-                    
-                    
-                    
-                    //                    var array:[String]?
-//                    array?.append(idData["routes"] as! String)
-//                    routesArray = array
-//                    print("\nroutesArray: \(String(describing: routesArray))")
-//
-                    
                 }
             }
-            
-            
             
         } else {
             print("\nNo data")
         }
-        
     }
     
 
@@ -213,38 +210,31 @@ class ViewController: UIViewController {
     
     @objc func buttonAction(sender: UIButton!) {
 
-        
         removeButtons()
         
+        // Debug purpose
         print("\n********Button tapped***********")
         print("\nsender.titleLabel?.text as Any")
         print(sender.titleLabel?.text as Any)
+        
         let reply = sender.titleLabel?.text
-        let chatData = chatTextView.text + "\n" + (reply ?? "ERROR")
+        let chatData = chatTextView.text + "\n" + "You: " + (reply ?? "ERROR") + "\n"
         chatTextView.text = chatData
         
         
         // grab payloadsArray element value to send to the backend server
         let index = sender.tag
+        
+        // Debug purpose
         print("\nindex: \(index)")
-//
-//        let payload = payloadsArray?[index]
-//        // Just print it for now
-//        print("\npayload from buttonAction")
-//        print(payload as Any)
-        
 
-     
-
-        
         // pass Json nextID to display next question
         guard let nextID = routesArray?[index] else { return  }
         
+        // Debug purpose
         print("\nnextID: \(nextID)")
+        
         parseJson(chatData: chatData, jsonID: nextID)
-        
-
-        
         
     }
     
@@ -260,9 +250,5 @@ class ViewController: UIViewController {
         removeButtons()
         parseJson(chatData: "", jsonID: "EIC")
     }
-    
-    
-
-    
 }
 
